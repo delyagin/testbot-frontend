@@ -1,9 +1,11 @@
 import React from 'react'
+import BuildRecentList from '../components/BuildRecentList'
 
 export default function Home() {
   return (
-    <div>
+    <>
         This is Home page
-    </div>
+        <BuildRecentList />    
+    </>
   )
 }
