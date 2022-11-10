@@ -66,19 +66,19 @@ class TestersList extends Component {
       this.setState({
         contacts_list: db_items(this.state.contacts)
       })
-      console.log("!: ", this.state.contacts)
+      // console.log("!: ", this.state.contacts)
     }
     getMachines = () => {
       var m = db_items(V_machines_all());
-      console.log("var machines: ", m)
+      // console.log("var machines: ", m)
     }
     
       render() {
         var contacts2 = db_items(this.state.contacts);
-        console.log("this.state.contacts", this.state.contacts)
+        // console.log("this.state.contacts", this.state.contacts)
         var machines = db_items(this.state.machines);
-        console.log("isShow", this.state.isShow)
-        console.log("render: ", contacts2)
+        // console.log("isShow", this.state.isShow)
+        // console.log("render: ", contacts2)
         return (
           <div>
             App
