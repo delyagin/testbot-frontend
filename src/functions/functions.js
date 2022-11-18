@@ -159,7 +159,7 @@ function db_delete(table, id) {
     // XXX: update denormalized data in related tables
 }
 
-function db_item_by_id(viewname, id) {
+export function db_item_by_id(viewname, id) {
     var view = VIEWMAP[viewname];
     if (!view) return null;
     return view.rowmap[id];
@@ -249,7 +249,8 @@ function api_connected() {
     return WS !== null && WS.readyState == WebSocket.OPEN;
 }
 
-function api_request(m, params, callback) {
+export function api_request(m, params, callback) {
+    console.log("API REQUEST")
     var request = {m: m};
     if (callback) {
         var cookie;

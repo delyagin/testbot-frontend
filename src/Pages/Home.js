@@ -1,11 +1,12 @@
 import React from 'react'
 import BuildRecentList from '../components/BuildRecentList'
+import Modal from '../components/Modal/Modal'
 
 export default function Home() {
   return (
     <>
         This is Home page
-        <BuildRecentList />    
+        {/* <Modal active={this.state.modalActive} setActive={this.setModalActive}/>    */}
     </>
   )
 }
