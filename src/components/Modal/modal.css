@@ -1,0 +1,43 @@
+.modal{
+    height: 150hv;
+    width: 44vw;
+    background-color: rgb(0, 0, 0, 0.4);
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.modal.active {
+    opacity: 1;
+    pointer-events: all;
+    /* transform: scale(1); */
+}
+
+.modal__content{
+    opacity: 1;
+    padding : 15px;
+    border-radius: 12px;
+    /* height: 200px; */
+    width: 400px;
+    background-color: white;
+    transform: scale(0.4);
+    transition: 0.5s;
+}
+.modal__content.active {
+    transform: scale(1);
+}
+.row2 {
+    display: flex;
+    margin: 1px 0 0 0;
+    background-color: rgba(42, 22, 78, 0.322);
+}
+.cell {
+
+}
+.flex-1 {
+    flex: 1;
+}

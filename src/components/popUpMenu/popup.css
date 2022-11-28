@@ -1,0 +1,91 @@
+@font-face {
+  font-family: "FontAwesome";
+  src: local("Font Awesome"), local("FontAwesome"),
+       url("../../pic/fontawesome-webfont.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+}
+
+.right-pos {
+    position: relative;
+   left: 540%;
+}
+.menu-item {
+    border-bottom: 1px dotted rgb(179, 163, 163);
+  }
+.menu-popup {
+    background: #fff;
+    border: 1px solid #000;
+    padding: 5px;
+    /* position: absolute; */
+    right: -1px;
+    white-space: nowrap;
+  }
+.ppup{
+    position: absolute;
+    /* left: 690px; */
+    float: right;
+    display: block;
+    clear: both;
+  }
+.menu-container {
+    display: inline;
+    position: right;
+  }
+.clickable {
+    color: rgb(89, 70, 197);
+    cursor: pointer;
+    /* text-decoration: none; */
+    background-color: rgba(213, 223, 198, 0.822);
+    border: 55px;
+  }
+
+  /* Dropdown Button */
+.dropbtn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+  }
+  
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    left: 81%;
+    display: inline-block;
+    background-color: #cfe4e1;
+    color: rgb(119, 20, 20);
+    cursor: pointer;
+    
+  }
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    /* display: none; */
+    position: inherit;
+    /* background-color: #8cc1ecbb; */
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+    z-index: 1;
+    text-align: center;
+  }
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {display: block;}
+  
+  /* Change the background color of the dropdown button when the dropdown content is shown */
+  .dropdown:hover .dropbtn {background-color: #3e8e41;}
+  .icon-menu:before         { content: "\f0ad"; } /* wrench */
+  

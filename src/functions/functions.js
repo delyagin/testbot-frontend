@@ -159,7 +159,7 @@ function db_delete(table, id) {
     // XXX: update denormalized data in related tables
 }
 
-function db_item_by_id(viewname, id) {
+export function db_item_by_id(viewname, id) {
     var view = VIEWMAP[viewname];
     if (!view) return null;
     return view.rowmap[id];
@@ -175,7 +175,8 @@ export function db_items(viewname) {
     return items;
 }
 
-function db_filter_items(viewname, filter) {
+export function db_filter_items(viewname, filter) {
+    console.log("filter", filter)
     var view = VIEWMAP[viewname];
     var items = [];
     if (!view) return items;
@@ -249,7 +250,8 @@ function api_connected() {
     return WS !== null && WS.readyState == WebSocket.OPEN;
 }
 
-function api_request(m, params, callback) {
+export function api_request(m, params, callback) {
+    console.log("API REQUEST")
     var request = {m: m};
     if (callback) {
         var cookie;
@@ -276,6 +278,14 @@ function populate_db_from_api(viewname, request, params) {
     // console.log("populate_db_from_api finished")
 }
 
+export function V_machine_groups_all() {
+    var name = "mg/all";
+    if (VIEWMAP[name]) return name;
+    db_create_view(name, "machine_groups", function (row) { return true; });
+    populate_db_from_api(name, "list/machine-groups/all");
+    return name;
+}
+
 export function V_machines_all() {
     var name = "m/all";
     if (VIEWMAP[name]) return name;
@@ -300,4 +310,10 @@ export function V_products_all() {
     db_create_view(name, "products", function (row) { return true; });
     populate_db_from_api(name, "list/products/all");
     return name;
+}
+export function compareByKey(key) {
+    return function (a, b) {
+        var va = a[key], vb = b[key];
+        return va > vb ? 1 : va < vb ? -1 : 0; 
+    }
 }
