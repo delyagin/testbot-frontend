@@ -53,6 +53,16 @@
 .item-row {
   border-bottom: 1px dotted #bbb;
 }
+.h2 {
+  background: #aaa;
+}
+.row {
+  display: flex;
+  margin: 1px 0 0 0;
+}
+.item-row {
+  border-bottom: 1px dotted #bbb;
+}
 
 .menu-icon {
   cursor: pointer;
@@ -80,6 +90,9 @@ a {
 .fsize-90 {
   font-size: 90%;
 }
+.fsize-90 {
+  font-size: 90%;
+}
 .menu-popup {
   background: #fff;
   border: 1px solid #000;
@@ -96,6 +109,12 @@ a {
 }
 .flex-1 {
     flex: 1;
+}
+.flex-2 {
+  flex: 2;
+}
+.flex-3 {
+  flex: 3;
 }
 .flex-2 {
   flex: 2;
