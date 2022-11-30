@@ -1,5 +1,39 @@
+@font-face {
+  font-family: "FontAwesome";
+  src: local("Font Awesome"), local("FontAwesome"),
+       url("../fontawesome-webfont.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+}
+.icon:before {
+  display: inline-block;
+  font: normal normal normal 100% "FontAwesome";
+  margin: 0 0.25em;
+  speak: none;
+  text-align: center;
+  text-transform: none;
+  width: 1em;
+}
+.icon-add:before          { content: "\f067"; } /* plus */
+.icon-checked:before      { content: "\f14a"; } /* check-square */
+.icon-close:before        { content: "\f00d"; } /* times */
+.icon-down:before         { content: "\f078"; } /* chevron-down */
+.icon-error:before        { content: "\f06a"; } /* exclamation-circle */
+.icon-invalid:before      { content: "\f057"; } /* times-circle */
+.icon-menu:before         { content: "\f0ad"; } /* wrench */
+.icon-next:before         { content: "\f061"; } /* arrow-right */
+.icon-prev:before         { content: "\f060"; } /* arrow-left */
+.icon-questionmark:before { content: "\f059"; } /* question-circle  */
+.icon-remove:before       { content: "\f00d"; } /* times */
+.icon-unchecked:before    { content: "\f096"; } /* square-o */
+.icon-valid:before        { content: "\f058"; } /* check-circle */
+.icon-warn:before         { content: "\f071"; } /* exclamation-triangle */
 
-  body {
+.bad-color { color: #e66; }
+.good-color { color: #696; }
+.warn-color { color: #e93; }
+
+body {
     background: white;
     border: 1px solid #ddd;
     margin: 10px auto;

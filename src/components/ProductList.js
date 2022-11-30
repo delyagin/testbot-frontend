@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useRef, useState} from 'react'
 import { Button } from 'reactstrap';
-import {V_products_all, V_machines_all, db_subscribe, db_unsubscribe, db_items, api_request } from '../functions/functions'
+import {V_products_all, db_subscribe, db_unsubscribe, db_items, api_request } from '../functions/functions'
 import Modal from './Modal/Modal';
 import { useNavigate } from 'react-router-dom'
 
@@ -98,13 +98,12 @@ export default class ProductList extends Component {
             <div className='row h1'>
                 <div className='cell flex-1'>ProductList</div>
                 <div>
-                    <button className='menu-container' onClick={() => this.setState(prevState =>{
+                    <button className='menu-container icon icon-menu' onClick={() => this.setState(prevState =>{
                         return{
                             ...prevState,
                             popUpMenu: !prevState.popUpMenu
                         }
                     })}>
-                        Dropdown
                     </button>
                 </div> 
             </div>
@@ -115,7 +114,7 @@ export default class ProductList extends Component {
                     <div>
                         <div className='row2'>
                             <div className='cell flex-1'>New Product</div>
-                            <Button color='danger' onClick={() => this.setModalActive(false)}>X</Button>
+                            <Button color='danger' className='icon icon-close' onClick={() => this.setModalActive(false)} />
                         </div>
                         <InputRow label='Title' value={this.state.title} onChange={this.setTitle} />
                         <InputRow label='Path pattern' value={this.state.pathPattern} onChange={this.setPathPattern} />

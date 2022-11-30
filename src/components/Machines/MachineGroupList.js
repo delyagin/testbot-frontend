@@ -76,13 +76,12 @@ export default class MachineGroupList extends Component {
         <div className='row h1'>
           <div className='cell flex-1'>Machine Groups</div>
             <div>
-              <button className='menu-container' onClick={() => this.setState(prevState =>{
+              <button className='menu-container icon icon-menu' onClick={() => this.setState(prevState =>{
                 return{
                     ...prevState,
                     popUpMenu: !prevState.popUpMenu
                   }
                   })}>
-                Dropdown
               </button>
             </div> 
         </div>
@@ -297,7 +296,7 @@ doCreate = (event) => {
                     <div>
                         <div className='row2'>
                             <div className='cell flex-1'>New Machine</div>
-                            <Button color='danger' onClick={() => this.props.setModalActive(false)}>X</Button>
+                            <Button color='danger' className='icon icon-close' onClick={() => this.props.setModalActive(false)} />
                         </div>
                         <InputRow label='Hostname:' value={this.state.hostname} onChange={this.setHostname} />
                         <InputRow label='Description:' value={this.state.description} onChange={this.setDescription} />
@@ -394,7 +393,7 @@ class DropdownRowSelect extends Component {
   render() {
     var row = db_item_by_id(this.props.viewName, this.state.rowId);
     console.log("row: ", row)
-    var label = row.title   // ? this.props.labelFactory({row: row}) : null;
+    var label = row ? row.title : null   // ? this.props.labelFactory({row: row}) : null;
     console.log("label: ", label)
     var rows = db_items(this.props.viewName);
     console.log("rows: ", rows);
@@ -416,7 +415,7 @@ class DropdownRowSelect extends Component {
               </div>}
             </div>
           </div>
-        <span className='icon icon-down dropdown-trigger' onClick={this.doFocus}>^^</span>  
+        <span className='icon icon-down dropdown-trigger' onClick={this.doFocus} />
         </div>
       </div>
       </div>

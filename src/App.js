@@ -9,6 +9,7 @@ import ProductList from './components/ProductList'
 import Product from './components/Product/Product'
 import MachineGroupList from './components/Machines/MachineGroupList'
 import MachineGroup from './components/Machines/MachineGroup'
+import MachinePage from './components/Machines/MachinePage'
 
 
 function App(){
@@ -29,6 +30,7 @@ function App(){
                     <Route path="/products/:id" element={<Product />}   />
                     <Route path="/mgroup/:id" element={<MachineGroup />}   />
                     <Route path='/mgroup-list' element={<MachineGroupList />} />
+                    <Route path='/machine/:id' element={<MachinePage />} />
                     <Route path="*" element={<ErrorPage />}   />
                 </Routes>
             </Router>

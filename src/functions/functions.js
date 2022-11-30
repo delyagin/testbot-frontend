@@ -251,7 +251,7 @@ function api_connected() {
 }
 
 export function api_request(m, params, callback) {
-    console.log("API REQUEST")
+    console.log("API REQUEST params", params)
     var request = {m: m};
     if (callback) {
         var cookie;

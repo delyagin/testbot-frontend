@@ -17,7 +17,8 @@ class MachineGroups extends Component {
         }
         this.doUpdate = this.doUpdate.bind(this);
         this.doDelete = this.doDelete.bind(this);
-        this._dbDidUpdate = this._dbDidUpdate.bind(this)
+        this.showPopup = this.showPopup.bind(this);
+        this._dbDidUpdate = this._dbDidUpdate.bind(this);
     }
     _dbDidUpdate = () => {
       if (this.state._isMounted) this.forceUpdate();
@@ -33,9 +34,16 @@ class MachineGroups extends Component {
         _isMounted: true
       })      
   };
+  showPopup = () => {
+    this.setState(prevState =>{
+        return{
+            ...prevState,
+            popUpMenu: !prevState.popUpMenu
+        }})
+}
   doDelete = (event) => {
-    api_request("delete/machine_group", {id: this.props.id});
-    this.props.navigate("/");
+    api_request("delete/machine-group", {id: this.state.id});
+    this.props.navigate("/mgroup-list");
   }
   doUpdate = () => {
     api_request("update/machine-group", {
@@ -55,12 +63,10 @@ class MachineGroups extends Component {
       <div className='row h1'>
         <div className='cell flex-1'>Machine Group</div>
         <div>
-          <button className='icon-menu' onClick={this.showPopup}>
-            Menu
-          </button>
+          <button className='icon icon-menu' onClick={this.showPopup} />
         </div>
       </div>
-      <div className='dropdown'>{this.state.popUpMenu && <PopUpMenu onClick={this.doDelete} text="Delete product" />}</div>
+      <div className='dropdown'>{this.state.popUpMenu && <PopUpMenu onClick={this.doDelete} text="Delete this machine group" />}</div>
       <div className='row item-row'>
         <div className='cell flex-1 '>Title:</div>
         <div className='cell flex-3 fsize-90'>{mg.title}</div>
@@ -71,7 +77,6 @@ class MachineGroups extends Component {
           <MachineList machine_group_id={mg.id} />
         </div>
       </div>
-      {/* <MachineList /> */}
    </div>
     )
   }
@@ -87,7 +92,6 @@ export class MachineList extends Component {
         _isMounted: false,
       }
       // this.setTitle = this.setTitle.bind(this);
-      this.doNew = this.doNew.bind(this);
       // this.setModalActive = this.setModalActive.bind(this);
       this._dbDidUpdate = this._dbDidUpdate.bind(this)
   }
@@ -105,9 +109,6 @@ export class MachineList extends Component {
       _isMounted: true
     })      
 };
-doNew = () => {
-  console.log("doNew called");
-}
 setModalActive = (value) => {
   this.setState({
     modalActive: value,
@@ -214,7 +215,7 @@ doCreate = (event) => {
                     <div>
                         <div className='row2'>
                             <div className='cell flex-1'>New Machine</div>
-                            <Button color='danger' onClick={() => this.props.setModalActive(false)}>X</Button>
+                            <Button color='danger' className='icon icon-close' onClick={() => this.props.setModalActive(false)} />
                         </div>
                         <InputRow label='Hostname:' value={this.state.hostname} onChange={this.setHostname} />
                         <InputRow label='Description:' value={this.state.description} onChange={this.setDescription} />
@@ -333,7 +334,7 @@ class DropdownRowSelect extends Component {
               </div>}
             </div>
           </div>
-        <span className='icon icon-down dropdown-trigger' onClick={this.doFocus}>^^</span>  
+        <span className='icon icon-down dropdown-trigger' onClick={this.doFocus} />  
         </div>
       </div>
       </div>

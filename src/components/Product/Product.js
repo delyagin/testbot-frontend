@@ -25,7 +25,7 @@ class Product extends Component {
         this.doUpdate = this.doUpdate.bind(this);
         this.doDelete = this.doDelete.bind(this);
         this.showPopup = this.showPopup.bind(this);
-        // console.log("id: ", this.props.params.id)
+        // console.log("Product, id: ", this.props.params.id)
     }
     
     _dbDidUpdate = () => {
@@ -52,7 +52,7 @@ class Product extends Component {
     }
     doDelete = (event) => {
         console.log("doDelete: this.props.id", this.state.id)
-        api_request("delete/product", { id: this.state.id});
+        api_request("delete/product", { id: this.state.id });
         this.props.navigate("/products");
     }
     showPopup = () => {
@@ -72,9 +72,7 @@ class Product extends Component {
           <div className='row h1'>
             <div className='cell flex-1'>Product</div>
             <div>
-                    <button className='icon-menu' onClick={this.showPopup}>
-                        Menu
-                    </button>
+                    <button className='icon icon-menu' onClick={this.showPopup} />
             </div>
           </div>
           <div className='dropdown'>{this.state.popUpMenu && <PopUpMenu onClick={this.doDelete} text="Delete product" />}</div>
