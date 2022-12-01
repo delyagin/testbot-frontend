@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { api_request, V_machines_all, V_machine_groups_all, db_item_by_id, db_subscribe, db_unsubscribe, db_items, compareByKey } from '../../functions/functions';
 import withRouter from '../../functions/withRouter'
+import MaybeInput from '../Input/MaybeInput';
 import PopUpMenu from '../popUpMenu/PopUpMenu';
 
 class MachinePage extends Component {
@@ -21,7 +22,7 @@ class MachinePage extends Component {
         this.doDelete = this.doDelete.bind(this);
         this.changeId = this.changeId.bind(this);
         this._dbDidUpdate = this._dbDidUpdate.bind(this);
-        // this.modalAddMachine = this.modalAddMachine.bind(this);
+        this.showPopup = this.showPopup.bind(this);
     }
     _dbDidUpdate = () => {
       if (this.state._isMounted) this.forceUpdate();
@@ -38,24 +39,32 @@ class MachinePage extends Component {
       })      
   };
     doUpdate = () => {
+      console.log("doUpdate called")
       var m = db_item_by_id(this.state.machines, this.props.id);
-    if (!m) return null;
-    api_request("update/machine", {
-        id: this.props.id,
-        machine_group_id: this.refs.mgroup_id.getRowId(),
-        hostname: this.refs.hostname.getValue(),
-        description: this.refs.description.getValue()
+      if (!m) return null;
+      api_request("update/machine", {
+        id: this.state.id,
+        machine_group_id: db_item_by_id(this.state.machines, this.state.id).machine_group_id, //this.refs.mgroup_id.getRowId(),
+        hostname: db_item_by_id(this.state.machines, this.state.id).hostname, //this.refs.hostname.getValue(),
+        description: db_item_by_id(this.state.machines, this.state.id).description //this.refs.description.getValue()
     });
 }
   doDelete = (event) => {
-    api_request("delete/machine", {id: this.props.id });
-    this.props.navigate("/products");
+    api_request("delete/machine", {id: this.state.id });
+    this.props.navigate("/mgroup-list");
 }
 changeId = (id) => {
     this.setState({
       mg_id : id
   })
   }
+  showPopup = () => {
+    this.setState(prevState =>{
+        return{
+            ...prevState,
+            popUpMenu: !prevState.popUpMenu
+        }})
+}
   render() {
     var m = db_item_by_id(this.state.machines, this.state.id);
     console.log("m: ", m)
@@ -70,24 +79,30 @@ changeId = (id) => {
           </div>
         </div>
         <div className='dropdown'>{this.state.popUpMenu && <PopUpMenu onClick={this.doDelete} text="Delete this machine" />}</div>
-        <div className='row item-row'>
+        <div className='row '>
           <div className='cell flex-1 '>Hostname:</div>
-          <div className='cell flex-2 fsize-90'>{m.hostname}
+          <div className='cell flex-2 fsize-90'>
             <div className='row'>
-                <div className='cell flex-1'></div>
-                {m.valid === null? null : 
-                m.valid ? <span className='icon icon-valid good-color' /> : <span className='icon icon-valid bad-color' />}
+            <div className='cell flex-2 item-row'>{m.hostname}</div>
+            {m.valid === null? null : 
+              m.valid ? <span className='icon icon-valid good-color' /> : <span className='icon icon-valid bad-color' />}
             </div>
           </div>
         </div>
-        <div className='row item-row'>
+        <div className='row'>
           <div className='cell flex-1 '>Description:</div>
-          <div className='cell flex-2 fsize-90'>{m.description}</div>
+          <div className='cell flex-2 fsize-90 item-row'>{m.description}</div>
         </div>
-        <div className='row item-row'>
+        <div className='row'>
           <div className='cell flex-1 '>Machine Group:</div>
           <div className='cell flex-2'>
              <DropdownRowSelect className='cell flex-3' viewName={this.state.mgroups} mg_id={m.machine_group_id} onChange={this.changeId}/>
+          </div>
+        </div>
+        <div className='row'>
+          <div className='cell flex-1 '>MaybeInput:</div>
+          <div className='cell flex-2 '>
+            <MaybeInput defaultValue={m.hostname} onChange={this.doUpdate}/>
           </div>
         </div>
      </div>
