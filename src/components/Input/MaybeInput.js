@@ -18,7 +18,7 @@ export default class MaybeInput extends Component {
     if (event.key === "Enter") {
         this.setState({editable: false});
         if (this.state.value !== this.props.defaultValue)
-            this.props.onChange(this.state.value);
+          this.props.onChange(this.state.value);
     }
     }
   doKeyDown = (event) => {
@@ -32,25 +32,39 @@ export default class MaybeInput extends Component {
       console.log("doChange called");
       this.setState({value: event.target.value});
     }
+  hadleClick = (e) => {
+    e.target.select();
+  }  
   doClick = () => {
     console.log("doClick")
     this.setState({value: this.props.defaultValue, editable: true});
     }
   render() {
+    console.log("this.state.defaultValue: ", this.state.defaultValue);
+    console.log("this.props.defaultValue: ", this.props.defaultValue);
     if (this.state.editable){
-        return <input className='fake-input' onKeyPress={this.doKeyPress} onChange={this.doChange} value={this.state.value} />
+        return <input onKeyPress={this.doKeyPress} 
+                      onChange={this.doChange} 
+                      value={this.state.value} 
+                      onClick={this.hadleClick} 
+                      onKeyDown={this.doKeyDown}/>
     }
     else return (
     //   <div className='cell flex-2' onKeyPress={this.doKeyPress} onClick={this.doKeyPress}>this.state.defaultValue</div>
-      <span className='fake-input' onClick={this.doClick}>{this.props.defaultValue}</span>
+      <span onClick={this.doClick}>{this.props.defaultValue}</span>
     )
   }
 }
 
-// export default function MaybeInput(props) {
-//   const [value, doChange] = useState('');
+class InputWithAutoSelect extends Component {
+  componentDidMount(){
+    this.getDOMNode().select();
+  }
+  render() {
+    return (
+      <input>{this.props}</input>
+    )
+  }
+}
 
-//   return (
-//     <div>MaybeInput</div>
-//   )
-// }
+

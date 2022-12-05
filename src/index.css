@@ -29,6 +29,38 @@
 .icon-valid:before        { content: "\f058"; } /* check-circle */
 .icon-warn:before         { content: "\f071"; } /* exclamation-triangle */
 
+button, input, .fake-input {
+  border: 1px solid #bbb;
+  display: inline-block;
+  height: 20px;
+  outline: 0;
+  padding: 0 2px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+button:focus, button:hover {
+  background: #ccc;
+}
+button::-moz-focus-inner {
+  border: 0;
+}
+input, .fake-input {
+  min-width: 300px;
+  width: 100%;
+}
+input:-moz-ui-invalid {
+  border-color: red;
+  box-shadow: none;
+}
+input:focus {
+  border-style: dotted;
+}
+.fake-input {
+  border: none;
+  border-bottom: 1px dotted #bbb;
+  cursor: pointer;
+}
+
 .bad-color { color: #e66; }
 .good-color { color: #696; }
 .warn-color { color: #e93; }

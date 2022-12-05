@@ -16,7 +16,8 @@ class MachinePage extends Component {
           popUpMenu: false, 
           modalActive : false,
           modalAddMachineActive : false,
-          title: ''    
+          title: '',
+          hostname: db_item_by_id(V_machines_all(), Number(this.props.params.id))
         }
         this.doUpdate = this.doUpdate.bind(this);
         this.doDelete = this.doDelete.bind(this);
@@ -25,27 +26,42 @@ class MachinePage extends Component {
         this.showPopup = this.showPopup.bind(this);
     }
     _dbDidUpdate = () => {
-      if (this.state._isMounted) this.forceUpdate();
+    //   var m = db_item_by_id(this.state.machines, this.state.id);
+    //   console.log("MachinePage _dbDidUpdate called");
+    //   console.log("isMounted: ", this.state._isMounted);
+    //   console.log("m: ", m);
+      if (this.state._isMounted) { 
+        this.forceUpdate();
+        // var m2 = db_item_by_id(this.state.machines, this.state.id);
+        // console.log("m2: ", m2);
+      }
     }
     componentDidMount(){
-      var statemap = this._dbum_state || (this._dbum_state = []);
-          for (var key in this.state) {
-              var prev = statemap[key];
-              statemap[key] = db_subscribe(this.state[key], this._dbDidUpdate)
-              if (prev) db_unsubscribe(prev);
-          }
+    var statemap = this._dbum_state || (this._dbum_state = []);
+      for (var key in this.state) {
+        // console.log("key: ", key);
+        var prev = statemap[key];
+        statemap[key] = db_subscribe(this.state[key], this._dbDidUpdate)
+        if (prev) db_unsubscribe(prev);
+        }
       this.setState({
         _isMounted: true
       })      
   };
-    doUpdate = () => {
-      console.log("doUpdate called")
-      var m = db_item_by_id(this.state.machines, this.props.id);
+
+    doUpdate = (newHostname) => {
+    //   console.log("doUpdate called: ", newHostname);
+    //   console.log("this.state.machines: ", this.state.machines);
+    //   console.log("this.props.id: ", this.state.id);
+      var m = db_item_by_id(this.state.machines, this.state.id);
+    //   console.log("m: ", m);
+      this.setState({hostname: newHostname});
+    //   console.log("this.state.hostname: ", this.state.hostname)
       if (!m) return null;
       api_request("update/machine", {
         id: this.state.id,
         machine_group_id: db_item_by_id(this.state.machines, this.state.id).machine_group_id, //this.refs.mgroup_id.getRowId(),
-        hostname: db_item_by_id(this.state.machines, this.state.id).hostname, //this.refs.hostname.getValue(),
+        hostname: newHostname, //this.refs.hostname.getValue(),
         description: db_item_by_id(this.state.machines, this.state.id).description //this.refs.description.getValue()
     });
 }
@@ -67,9 +83,9 @@ changeId = (id) => {
 }
   render() {
     var m = db_item_by_id(this.state.machines, this.state.id);
-    console.log("m: ", m)
     if (!m) return null;
     var mg = db_item_by_id(this.state.mgroups, m.machine_group_id);
+    console.log("MachinePage render !!! m:", m)
     return (
         <div className='table'>
         <div className='row h1'>
@@ -155,7 +171,6 @@ class DropdownRowSelect extends Component {
     doRowMouseDown = (id, event) => {
       console.log("doRowMouseDown id", event.target);
       if (event.button == 0) {
-        console.log("button is 0")
         event.preventDefault();
         event.stopPropagation();
         document.activeElement.blur();

@@ -62,6 +62,7 @@ export function db_unsubscribe(ticket) {
 }
 
 function db_notify_subscribers(viewname) {
+    // console.log("db_notify_subscribers");
     var view = VIEWMAP[viewname];
     // console.log("view: ", view)
     for (var i = view.subscribers.length - 1; i >= 0; i--){
@@ -138,11 +139,15 @@ function db_populate_view(viewname, rowlist) {
 function db_update(table, row) {
     for (var i = VIEWLIST.length - 1; i >= 0; i--) {
         var view = VIEWLIST[i];
-        // if (view.table === table && view.rowmap[row.id]) {
+        // console.log("view.table: ", view.table);
+        // console.log("table: ", table);
+        // console.log("view.rowmap[row.id]: ", view.rowmap[row.id]);
+        if (view.table === table && view.rowmap[row.id]) {
+            console.log("!!!!! view.name", view.name)
         //     view.rowmap[row.id] =
         //         React.__spread({}, view.rowmap[row.id], row);
-        //     db_notify_subscribers(view.name);
-        // }
+            db_notify_subscribers(view.name);
+        }
     }
     // XXX: update denormalized data in related tables
 }
