@@ -143,9 +143,12 @@ function db_update(table, row) {
         // console.log("table: ", table);
         // console.log("view.rowmap[row.id]: ", view.rowmap[row.id]);
         if (view.table === table && view.rowmap[row.id]) {
-            console.log("!!!!! view.name", view.name)
+            console.log("Before view.rowmap[row.id]", view.rowmap[row.id]);
+            console.log("Before row", row);
         //     view.rowmap[row.id] =
         //         React.__spread({}, view.rowmap[row.id], row);
+            view.rowmap[row.id] = Object.assign(view.rowmap[row.id], row); //Extend view.rowmap[row.id] by row
+            console.log("After view.rowmap[row.id]", view.rowmap[row.id]);
             db_notify_subscribers(view.name);
         }
     }

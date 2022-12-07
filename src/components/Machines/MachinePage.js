@@ -95,32 +95,50 @@ changeId = (id) => {
           </div>
         </div>
         <div className='dropdown'>{this.state.popUpMenu && <PopUpMenu onClick={this.doDelete} text="Delete this machine" />}</div>
-        <div className='row '>
+        {/* <div className='row '>
           <div className='cell flex-1 '>Hostname:</div>
           <div className='cell flex-2 fsize-90'>
             <div className='row'>
-            <div className='cell flex-2 item-row'>{m.hostname}</div>
-            {m.valid === null? null : 
+              <div className='cell flex-2 item-row'>{m.hostname}</div>
+              {m.valid === null? null : 
               m.valid ? <span className='icon icon-valid good-color' /> : <span className='icon icon-valid bad-color' />}
+            </div>
+          </div>
+        </div> */}
+        <div className='row'>
+          <div className='cell flex-1 '>Hostname:</div>
+          <div className='cell flex-2'>
+            <div className='row'>
+              <div className='cell flex-2 item-row'>
+                <MaybeInput defaultValue={m.hostname} onChange={this.doUpdate}/>
+                </div>
+                {m.valid === null? null : 
+                   m.valid ? <span className='icon icon-valid good-color' /> : <span className='icon icon-valid bad-color' />}
             </div>
           </div>
         </div>
         <div className='row'>
           <div className='cell flex-1 '>Description:</div>
-          <div className='cell flex-2 fsize-90 item-row'>{m.description}</div>
+          <div className='cell flex-2'>
+            {/* <div className='row'> */}
+              <div className='cell flex-2 item-row'>
+                <MaybeInput defaultValue={m.description} onChange={this.doUpdate}/>
+                {/* </div> */}
+            </div>
+          </div>
         </div>
+
+        {/* <div className='row'>
+          <div className='cell flex-1 '>Description:</div>
+          <div className='cell flex-2 fsize-90 item-row'>{m.description}</div>
+        </div> */}
         <div className='row'>
           <div className='cell flex-1 '>Machine Group:</div>
           <div className='cell flex-2'>
              <DropdownRowSelect className='cell flex-3' viewName={this.state.mgroups} mg_id={m.machine_group_id} onChange={this.changeId}/>
           </div>
         </div>
-        <div className='row'>
-          <div className='cell flex-1 '>MaybeInput:</div>
-          <div className='cell flex-2 '>
-            <MaybeInput defaultValue={m.hostname} onChange={this.doUpdate}/>
-          </div>
-        </div>
+        
      </div>
     )
   }
