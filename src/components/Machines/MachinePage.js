@@ -16,24 +16,21 @@ class MachinePage extends Component {
           popUpMenu: false, 
           modalActive : false,
           modalAddMachineActive : false,
-          title: '',
-          hostname: db_item_by_id(V_machines_all(), Number(this.props.params.id))
         }
         this.doUpdate = this.doUpdate.bind(this);
         this.doDelete = this.doDelete.bind(this);
         this.changeId = this.changeId.bind(this);
         this._dbDidUpdate = this._dbDidUpdate.bind(this);
         this.showPopup = this.showPopup.bind(this);
+        // this.handleChangeHostname = this.handleChangeHostname.bind(this);
+        // this.handleChangeDescription = this.handleChangeDescription.bind(this);
+
+        this.hostnameRef = React.createRef();
+        this.descriptionRef = React.createRef();
     }
     _dbDidUpdate = () => {
-    //   var m = db_item_by_id(this.state.machines, this.state.id);
-    //   console.log("MachinePage _dbDidUpdate called");
-    //   console.log("isMounted: ", this.state._isMounted);
-    //   console.log("m: ", m);
       if (this.state._isMounted) { 
         this.forceUpdate();
-        // var m2 = db_item_by_id(this.state.machines, this.state.id);
-        // console.log("m2: ", m2);
       }
     }
     componentDidMount(){
@@ -48,21 +45,34 @@ class MachinePage extends Component {
         _isMounted: true
       })      
   };
-
-    doUpdate = (newHostname) => {
+  // handleChangeHostname(value) {
+  //   console.log("event: ", value); 
+  //   this.setState({hostname : value});
+  //   console.log("this.state.hostname1: ", this.state.hostname)
+  //   this.doUpdate(value);
+  // };
+  // handleChangeDescription(event) { 
+  //   this.setState({ description: event.target.value });
+  //   this.doUpdate();
+  // };
+    doUpdate = () => {
     //   console.log("doUpdate called: ", newHostname);
     //   console.log("this.state.machines: ", this.state.machines);
     //   console.log("this.props.id: ", this.state.id);
       var m = db_item_by_id(this.state.machines, this.state.id);
-    //   console.log("m: ", m);
-      this.setState({hostname: newHostname});
-    //   console.log("this.state.hostname: ", this.state.hostname)
+      console.log("hostRef: ", this.hostnameRef);
+      console.log("descrRef: ", this.descriptionRef);
       if (!m) return null;
       api_request("update/machine", {
+        // id: this.state.id,
+        // machine_group_id: db_item_by_id(this.state.machines, this.state.id).machine_group_id, //this.refs.mgroup_id.getRowId(),
+        // hostname: newHostname, //this.refs.hostname.getValue(),
+        // description: db_item_by_id(this.state.machines, this.state.id).description //this.refs.description.getValue()
+        
         id: this.state.id,
         machine_group_id: db_item_by_id(this.state.machines, this.state.id).machine_group_id, //this.refs.mgroup_id.getRowId(),
-        hostname: newHostname, //this.refs.hostname.getValue(),
-        description: db_item_by_id(this.state.machines, this.state.id).description //this.refs.description.getValue()
+        hostname: this.hostnameRef.current.state.value,
+        description: this.descriptionRef.current.state.value //this.refs.description.getValue()
     });
 }
   doDelete = (event) => {
@@ -84,7 +94,7 @@ changeId = (id) => {
   render() {
     var m = db_item_by_id(this.state.machines, this.state.id);
     if (!m) return null;
-    var mg = db_item_by_id(this.state.mgroups, m.machine_group_id);
+    // var mg = db_item_by_id(this.state.mgroups, m.machine_group_id);
     console.log("MachinePage render !!! m:", m)
     return (
         <div className='table'>
@@ -110,7 +120,8 @@ changeId = (id) => {
           <div className='cell flex-2'>
             <div className='row'>
               <div className='cell flex-2 item-row'>
-                <MaybeInput defaultValue={m.hostname} onChange={this.doUpdate}/>
+                <MaybeInput defaultValue={m.hostname} onChange={this.doUpdate} ref={this.hostnameRef} />
+                {/* <MaybeInput defaultValue={m.hostname} handleChange={this.handleChangeHostname}/> */}
                 </div>
                 {m.valid === null? null : 
                    m.valid ? <span className='icon icon-valid good-color' /> : <span className='icon icon-valid bad-color' />}
@@ -122,7 +133,8 @@ changeId = (id) => {
           <div className='cell flex-2'>
             {/* <div className='row'> */}
               <div className='cell flex-2 item-row'>
-                <MaybeInput defaultValue={m.description} onChange={this.doUpdate}/>
+                {/* <MaybeInput defaultValue={m.description} onChange={this.doUpdate}/> */}
+                <MaybeInput defaultValue={m.description} onChange={this.doUpdate} ref={this.descriptionRef} />
                 {/* </div> */}
             </div>
           </div>
@@ -188,7 +200,7 @@ class DropdownRowSelect extends Component {
     }
     doRowMouseDown = (id, event) => {
       console.log("doRowMouseDown id", event.target);
-      if (event.button == 0) {
+      if (event.button === 0) {
         event.preventDefault();
         event.stopPropagation();
         document.activeElement.blur();

@@ -4,7 +4,7 @@ export default class MaybeInput extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          value: '',
+          value: this.props.defaultValue,
           defaultValue: this.props.defaultValue,
           editable: false
         }
@@ -18,7 +18,7 @@ export default class MaybeInput extends Component {
     if (event.key === "Enter") {
         this.setState({editable: false});
         if (this.state.value !== this.props.defaultValue)
-          this.props.onChange(this.state.value);
+          this.props.onChange();
     }
     }
   doKeyDown = (event) => {
@@ -36,21 +36,21 @@ export default class MaybeInput extends Component {
     e.target.select();
   }  
   doClick = () => {
-    console.log("doClick")
+    // console.log("doClick")
     this.setState({value: this.props.defaultValue, editable: true});
     }
   render() {
-    console.log("this.state.defaultValue: ", this.state.defaultValue);
-    console.log("this.props.defaultValue: ", this.props.defaultValue);
+    // console.log("this.state.defaultValue: ", this.state.defaultValue);
+    // console.log("this.props.defaultValue: ", this.props.defaultValue);
     if (this.state.editable){
         return <input onKeyPress={this.doKeyPress} 
                       onChange={this.doChange} 
                       value={this.state.value} 
                       onClick={this.hadleClick} 
-                      onKeyDown={this.doKeyDown}/>
+                      onKeyDown={this.doKeyDown}
+                      onblur={this.doBlur}/>
     }
     else return (
-    //   <div className='cell flex-2' onKeyPress={this.doKeyPress} onClick={this.doKeyPress}>this.state.defaultValue</div>
       <span onClick={this.doClick}>{this.props.defaultValue}</span>
     )
   }
