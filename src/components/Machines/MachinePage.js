@@ -22,6 +22,7 @@ class MachinePage extends Component {
         this.changeId = this.changeId.bind(this);
         this._dbDidUpdate = this._dbDidUpdate.bind(this);
         this.showPopup = this.showPopup.bind(this);
+        this.hello = this.hello.bind(this);
         // this.handleChangeHostname = this.handleChangeHostname.bind(this);
         // this.handleChangeDescription = this.handleChangeDescription.bind(this);
 
@@ -79,10 +80,13 @@ class MachinePage extends Component {
     api_request("delete/machine", {id: this.state.id });
     this.props.navigate("/mgroup-list");
 }
-changeId = (id) => {
+  changeId = (id) => {
     this.setState({
       mg_id : id
   })
+  }
+  hello = () => {
+    console.log("Helloooooo!")
   }
   showPopup = () => {
     this.setState(prevState =>{
@@ -104,7 +108,7 @@ changeId = (id) => {
                   <button className='icon icon-menu' onClick={this.showPopup} />
           </div>
         </div>
-        <div className='dropdown'>{this.state.popUpMenu && <PopUpMenu onClick={this.doDelete} text="Delete this machine" />}</div>
+        <div className='dropdown'>{this.state.popUpMenu && <PopUpMenu onClick={[this.doDelete]} text={["Delete this machine"]} />}</div>
         {/* <div className='row '>
           <div className='cell flex-1 '>Hostname:</div>
           <div className='cell flex-2 fsize-90'>

@@ -50,13 +50,11 @@ export default class MachineGroupList extends Component {
     })
   }
   modalAddMachine = (value)=> {
-    console.log("!!!")
     this.setState({
       modalAddMachineActive: value
     })
   }
   setTitle = (event) => {
-    console.log("event.target.value", event.target.value)
     this.setState({
         title : event.target.value
     })
@@ -85,7 +83,7 @@ export default class MachineGroupList extends Component {
               </button>
             </div> 
         </div>
-        <div className='dropdown'>{this.state.popUpMenu && <PopUpMenu onClick={() => this.setModalActive(true)} text="Add a new machine group..." />}</div>
+        <div className='dropdown'>{this.state.popUpMenu && <PopUpMenu onClick={[() => this.setModalActive(true)]} text={["Add a new machine group..."]} />}</div>
         <Modal active={this.state.modalActive} setActive={this.setModalActive}>
             <div className='table'>
                 <div className='row2'>

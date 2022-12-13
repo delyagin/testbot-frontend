@@ -119,9 +119,6 @@ body {
 .item-row {
   border-bottom: 1px dotted #bbb;
 }
-.h2 {
-  background: #aaa;
-}
 .row {
   display: flex;
   margin: 1px 0 0 0;

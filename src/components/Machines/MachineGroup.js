@@ -66,7 +66,7 @@ class MachineGroups extends Component {
           <button className='icon icon-menu' onClick={this.showPopup} />
         </div>
       </div>
-      <div className='dropdown'>{this.state.popUpMenu && <PopUpMenu onClick={this.doDelete} text="Delete this machine group" />}</div>
+      <div className='dropdown'>{this.state.popUpMenu && <PopUpMenu onClick={[this.doDelete]} text={["Delete this machine group"]} />}</div>
       <div className='row item-row'>
         <div className='cell flex-1 '>Title:</div>
         <div className='cell flex-3 fsize-90'>{mg.title}</div>

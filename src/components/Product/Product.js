@@ -75,7 +75,7 @@ class Product extends Component {
                     <button className='icon icon-menu' onClick={this.showPopup} />
             </div>
           </div>
-          <div className='dropdown'>{this.state.popUpMenu && <PopUpMenu onClick={this.doDelete} text="Delete product" />}</div>
+          <div className='dropdown'>{this.state.popUpMenu && <PopUpMenu onClick={[this.doDelete]} text={["Delete product"]} />}</div>
           <div className='row item-row'>
             <div className='cell flex-1 '>Title:</div>
             <div className='cell flex-2 fsize-90'>{product.title}</div>

@@ -147,7 +147,6 @@ export default class ProductList extends Component {
 }
 
 function PopUpMenu(props) {
-    const wrapperRef = useRef(null);
     // useOutsideAlerter(wrapperRef)
     // console.log("props", props)
     return (

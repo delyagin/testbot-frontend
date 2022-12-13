@@ -22,4 +22,4 @@ export default class MenuItem extends Component {
       )
     }
   }
-//    'menu-item clickable'
+  

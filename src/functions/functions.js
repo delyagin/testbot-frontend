@@ -302,6 +302,14 @@ export function V_machines_all() {
     return name;
 }
 
+export function V_test_suites_all() {
+    var name = "ts/all";
+    if (VIEWMAP[name]) return name;
+    db_create_view(name, "test_suites", function (row) { return true; });
+    populate_db_from_api(name, "list/test-suites/all");
+    return name;
+}
+
 export function V_contacts_all() {
     var name = "c/all";
     if (VIEWMAP[name]) return name;
@@ -309,6 +317,14 @@ export function V_contacts_all() {
     populate_db_from_api(name, "list/contacts/all");
     // console.log("V_contacts_all finished")
     // console.log("VIEWLIST", VIEWLIST)
+    return name;
+}
+
+export function V_contact_assignments_all() {
+    var name = "ca/all";
+    if (VIEWMAP[name]) return name;
+    db_create_view(name, "contact_assignments", function (row) { return true; });
+    populate_db_from_api(name, "list/contact-assignments/all");
     return name;
 }
 
@@ -323,5 +339,15 @@ export function compareByKey(key) {
     return function (a, b) {
         var va = a[key], vb = b[key];
         return va > vb ? 1 : va < vb ? -1 : 0; 
+    }
+}
+
+export function compareByTwoKeys(key1, key2) {
+    return function (a, b) {
+        var va1 = a[key1], vb1 = b[key1];
+        if (va1 > vb1) return 1;
+        if (va1 < vb1) return -1;
+        var va2 = a[key2], vb2 = b[key2];
+        return va2 > vb2 ? 1 : va2 < vb2 ? -1 : 0;
     }
 }
