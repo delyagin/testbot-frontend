@@ -44,6 +44,14 @@ button:focus, button:hover {
 button::-moz-focus-inner {
   border: 0;
 }
+.button-confirm {
+  position: relative;
+  left: 30%;
+  height: 25px;
+  margin:15px 10px 0 0;
+  border: 2px solid #bbb;
+  padding: 0 20px;
+}
 input, .fake-input {
   min-width: 300px;
   width: 100%;

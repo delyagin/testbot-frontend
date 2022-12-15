@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { V_contacts_all, V_contact_assignments_all, V_test_suites_all, db_subscribe, db_unsubscribe, api_request, db_items, compareByKey, compareByTwoKeys } from '../../functions/functions';
+import { V_contacts_all, V_contact_assignments_all, V_test_suites_all, db_subscribe, 
+         db_unsubscribe, api_request, db_items, compareByKey, compareByTwoKeys, db_item_by_id } from '../../functions/functions';
 import PopUpMenu from '../popUpMenu/PopUpMenu';
 import Modal from '../Modal/Modal';
 import InputRow from '../Input/InputRow';
@@ -14,9 +15,11 @@ export default class ContactList extends Component {
           titleContactAssignment: '',
           contacts: V_contacts_all(),
           contact_assignments: V_contact_assignments_all(),
-          tsuits: V_test_suites_all(), 
+          tsuites: V_test_suites_all(), 
           modalContact: false,
           modalContactAssignment: false,
+          confirm: false, 
+          idContactToDel: ''
         }
         this.doUpdateContact = this.doUpdateContact.bind(this);
         this.doDeleteContact = this.doDeleteContact.bind(this);
@@ -28,10 +31,15 @@ export default class ContactList extends Component {
         this.showPopup = this.showPopup.bind(this);
         this.setModalContact = this.setModalContact.bind(this);
         this.setModalContactAssignment = this.setModalContactAssignment.bind(this);
+        this.doRemoveContact = this.doRemoveContact.bind(this);
+        this.doRemoveAssignment = this.doRemoveAssignment.bind(this);
+
+        // this.refContactModal = React.createRef();
+        // this.refAssignmentModal = React.createRef();
     }
   setTitleContact = (event) => {
-      this.setState({
-          titleContact : event.target.value
+    this.setState({
+      titleContact : event.target.value
       })
     }
   setTitleContactAssignment = (event) => {
@@ -65,24 +73,31 @@ export default class ContactList extends Component {
   };  
   doDeleteContact = (contact_id) => {
     api_request("delete/contact", {id: contact_id});
+    this.setState({
+      idContactToDel: '',
+      confirm: false
+    })
 }
   doDeleteContactAssignment = (contact_assignment_id) => {
   api_request("delete/contact-assignment", {id: contact_assignment_id});
 }
   doUpdateContact = (contact, name) => {
-  api_request("update/contact", {
+    api_request("update/contact", {
       id: contact.id,
       name: name
   });
 }
   doCreateContact = (event) => {
-  // event.preventDefault();
-    console.log("doCreate called")
-  // api_request("create/contact", {
-  //     name: this.refs.name.getValue()
-  // });
+    event.preventDefault();
+    api_request("create/contact", {
+      name: this.state.titleContact
+  });
   // this.toggleDialog();
-  this.showPopup();
+    this.showPopup();
+    this.setState({
+      titleContact: '',
+      modalContact: false
+    })
 }
   doCreateContactAssignment = (event) => {
     console.log("doCreateContactAssignment called")
@@ -100,6 +115,7 @@ export default class ContactList extends Component {
   this.showPopup();
 }
   showPopup = () => {
+    console.log("!!!")
     this.setState(prevState =>{
       return{
           ...prevState,
@@ -112,8 +128,15 @@ export default class ContactList extends Component {
       titleContact: "",
       titleContactAssignment: "",
       popUpMenu: value,
-  })
-}
+    })
+  }
+  setModalConfirm = (value, id) => {
+    this.setState({
+      confirm: value,
+      idContactToDel: id
+
+    })
+  }
   setModalContactAssignment = (value) => {
     this.setState({
       modalContactAssignment: value,
@@ -121,13 +144,23 @@ export default class ContactList extends Component {
       titleContactAssignment: "",
       popUpMenu: value,
   })
-}
+  }
+  doRemoveContact = (event) => {
+    // (id, event) => {
+    // event.preventDefault();
+    this.doDeleteContact(this.state.idContactToDel);
+  }
+  doRemoveAssignment = (id, event) => {
+    event.preventDefault();
+    console.log("doRemoveContactAssignment id:", id);
+    this.doDeleteContactAssignment(id);
+  }
   render() {
     var contacts = db_items(this.state.contacts);
     var assignments = db_items(this.state.contact_assignments);
     contacts.sort(compareByKey("name"));
-    // console.log("contacts: ", assignments)
     assignments.sort(compareByTwoKeys("test_suite_id", "test_name_pattern"));
+    // console.log("assignments: ", assignments)
     return (
       <div className='table'>
         <div className='row h1'>
@@ -143,12 +176,8 @@ export default class ContactList extends Component {
           <div className='cell flex-3' >Test Name Pattern</div>
           <span className='icon icon-remove'/>
         </div>
-        {contacts.map((contact, i) => 
-          <div key={i} className='item-block'>
-            <MaybeInput defaultValue={contact.name} onChange={value => this.doUpdateContact(contact, value)}/>
-          </div>
-        )}
-        <div className='dropdown'>{this.state.popUpMenu && <PopUpMenu 
+        <div className='dropdown'>
+          {this.state.popUpMenu && <PopUpMenu 
           onClick={[() => this.setModalContact(true), () => this.setModalContactAssignment(true)]} 
           text={["Add a new contact...", "Add a new contact assignment..."]} />}
         </div>
@@ -162,7 +191,7 @@ export default class ContactList extends Component {
                 <Button 
                     color='primary' 
                     className='button'
-                    onClick={this.doCreate}> Create
+                    onClick={this.doCreateContact}> Create
                 </Button>
             </div>
         </Modal>
@@ -180,6 +209,53 @@ export default class ContactList extends Component {
                 </Button>
             </div>
         </Modal>
+        <Modal active={this.state.confirm} setActive={this.setModalConfirm}>
+            {/* <div className='table'> */}
+                <div className='row2'>
+                    <div className='cell flex-1'>Do you want delete this tester?</div>
+                    <Button color='danger' onClick={() => this.setModalConfirm(false)}>X</Button>
+                </div>
+                <div>
+                  <Button 
+                      color='primary' 
+                      className='button-confirm'
+                      onClick={ this.doRemoveContact }> Yes
+                  </Button>
+                  <Button 
+                      color='primary' 
+                      className='button-confirm'
+                      onClick={() => this.setModalConfirm(false) }> No
+                  </Button>
+                  {/* </div> */}
+            </div>
+        </Modal>
+        {contacts.map((contact, i) => 
+          <div key={i} className='item-block'>
+            <div className='row h3'>
+              <div className='cell flex-1'>
+                <MaybeInput className='item-block' defaultValue={contact.name} onChange={value => this.doUpdateContact(contact, value)}/>
+              </div>
+              <span className='icon icon-remove clickable'
+                onClick={() => this.setModalConfirm(true, contact.id) }
+                // doRemoveContact.bind(this, contact.id)
+              />
+            </div>
+            {assignments.filter(a => a.contact_id == contact.id)
+            .map((a, i) => 
+              <div className='row' key={i}>
+                <div className='cell flex-1'></div>
+                <div className='cell flex-2'>{db_item_by_id(this.state.tsuites, a.test_suite_id).title}</div>
+                <div className='cell flex-3' >
+                  <MaybeInput defaultValue={a.test_name_pattern} onChange={value => this.doUpdateContactAssignment(a, value)}
+                  />
+                </div>
+                <span className='icon icon-remove clickable'
+                  onClick={event => this.doRemoveAssignment(a.id, event) }
+              />
+              </div>
+            )}
+          </div>
+        )}
       </div>
     )
   }
