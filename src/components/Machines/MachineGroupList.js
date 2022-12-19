@@ -114,7 +114,6 @@ export default class MachineGroupList extends Component {
 }
 
 function SortedRows(props) {
-    console.log("SortedRows", props)
     const getDefaultProps = () => {
       return {
           viewName: null,
@@ -159,7 +158,6 @@ class MachineList extends Component {
           modalActive : false
         }
         this.showPopup = this.showPopup.bind(this);
-        this.doNew = this.doNew.bind(this);
         this.setModalActive = this.setModalActive.bind(this);
         this._dbDidUpdate = this._dbDidUpdate.bind(this)
     }
@@ -177,9 +175,6 @@ class MachineList extends Component {
         _isMounted: true
       })      
   };
-  doNew = () => {
-    console.log("doNew");
-  }
   showPopup = () => {
     this.setState(prevState =>{
         return{

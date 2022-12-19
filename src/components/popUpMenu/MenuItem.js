@@ -7,9 +7,7 @@ export default class MenuItem extends Component {
     this.doMouseDown = this.doMouseDown.bind(this)
     }
     doMouseDown = (event) => {
-        console.log("props MenuItem", this.props)
         if (event.button === 0){
-            console.log("button is 0")
             event.preventDefault();
             event.stopPropagation();
             document.activeElement.blur();

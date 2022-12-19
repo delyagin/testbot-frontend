@@ -96,16 +96,13 @@ body {
   justify-content: space-between;
   align-items: stretch;
   gap: 2rem;
-  padding: 0 10rem;
-  padding-bottom: 10px;;
+  padding-bottom: 10px;
 }
 
 .nav .nav-link {
   color: rgb(247, 248, 252);
   padding-right: 10px;
-  font-size:x-large;
-  
-  
+  font-size:x-large; 
 }
 .h1 {
   display: flex;

@@ -52,8 +52,9 @@ class MachineGroups extends Component {
     });
   }
   render(){
+    // console.log("!!!!! id ", this.state.id)
     var mg = db_item_by_id(this.state.mgroups, this.state.id);
-    console.log("MachineGroup", mg)
+    // console.log("MachineGroup", mg)
     if (!mg) return null;
     var machines = db_filter_items(this.state.machines, function (row) {
       return row.machine_group_id === mg.id;
@@ -224,7 +225,7 @@ doCreate = (event) => {
                         <div className='row'>
                           <div className='cell flex-1'>Machine Group:</div>
                           <div className='cell flex-2'>
-                          <DropdownRowSelect viewName={this.state.mgroups} mg_id={this.state.mg_id} onChange={this.changeId}/>
+                            <DropdownRowSelect viewName={this.state.mgroups} mg_id={this.state.mg_id} onChange={this.changeId}/>
                             {/* <DropdownRowSelect 
                               ref =  "mgroup_id"
                               defaultRowId = {this.props.machine_group_id}
@@ -245,6 +246,8 @@ doCreate = (event) => {
   }
 }
 
+// TODO: Change this DropdownRowSelect to class from ContactList
+//       and move to new .js file 
 class DropdownRowSelect extends Component {
   constructor(props) {
     super(props);

@@ -61,8 +61,6 @@ class MachinePage extends Component {
     //   console.log("this.state.machines: ", this.state.machines);
     //   console.log("this.props.id: ", this.state.id);
       var m = db_item_by_id(this.state.machines, this.state.id);
-      console.log("hostRef: ", this.hostnameRef);
-      console.log("descrRef: ", this.descriptionRef);
       if (!m) return null;
       api_request("update/machine", {
         // id: this.state.id,
