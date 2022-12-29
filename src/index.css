@@ -143,7 +143,7 @@ body {
 a {
   color: rgb(57, 104, 235);
   size: 30px;
-  position: relative;
+  /* position: relative; */
   left: 20%;
   font-size: 90%;
   text-decoration: none;

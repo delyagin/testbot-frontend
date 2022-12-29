@@ -18,3 +18,18 @@ export default function SortedRows(props) {
           )
     )
   }
+
+  function MachineGroupRow(props) {
+    var row = props.row;
+    console.log("ProductRow props: ", props)
+    return (
+      <div className='row item-row'>
+          <div className='cell flex-1'>
+              <Link href={'/mgroup/' + row.id} title={props.row.title} />
+          </div>
+          <div className='cell flex-3'>
+            <MachineList machine_group_id={row.id} />
+          </div>
+      </div>
+    )
+  }

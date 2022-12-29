@@ -135,7 +135,6 @@ function SortedRows(props) {
 
 function MachineGroupRow(props) {
     var row = props.row;
-    console.log("ProductRow props: ", props)
     return (
       <div className='row item-row'>
           <div className='cell flex-1'>

@@ -219,7 +219,6 @@ export default class ContactList extends Component {
   }
 }
 
-
 class NewContactAssignmentDialog extends Component {
   constructor(props) {
     super(props);

@@ -351,3 +351,11 @@ export function compareByTwoKeys(key1, key2) {
         return va2 > vb2 ? 1 : va2 < vb2 ? -1 : 0;
     }
 }
+
+export function V_autorun_items_all() {
+    var name = "rs/all";
+    if (VIEWMAP[name]) return name;
+    db_create_view(name, "autorun_items", function (row) { return true; });
+    populate_db_from_api(name, "list/autorun-items/all");
+    return name;
+}

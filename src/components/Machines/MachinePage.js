@@ -22,7 +22,7 @@ class MachinePage extends Component {
         this.changeId = this.changeId.bind(this);
         this._dbDidUpdate = this._dbDidUpdate.bind(this);
         this.showPopup = this.showPopup.bind(this);
-        this.hello = this.hello.bind(this);
+        
         // this.handleChangeHostname = this.handleChangeHostname.bind(this);
         // this.handleChangeDescription = this.handleChangeDescription.bind(this);
 
@@ -83,9 +83,6 @@ class MachinePage extends Component {
       mg_id : id
   })
   }
-  hello = () => {
-    console.log("Helloooooo!")
-  }
   showPopup = () => {
     this.setState(prevState =>{
         return{
@@ -96,8 +93,6 @@ class MachinePage extends Component {
   render() {
     var m = db_item_by_id(this.state.machines, this.state.id);
     if (!m) return null;
-    // var mg = db_item_by_id(this.state.mgroups, m.machine_group_id);
-    console.log("MachinePage render !!! m:", m)
     return (
         <div className='table'>
         <div className='row h1'>

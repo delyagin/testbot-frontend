@@ -4,24 +4,24 @@ import {V_products_all, db_subscribe, db_unsubscribe, db_items, api_request } fr
 import Modal from './Modal/Modal';
 import { useNavigate } from 'react-router-dom'
 
-function useOutsideAlerter(ref) {
-    useEffect(() => {
-      /**
-       * Alert if clicked on outside of element
-       */
-      function handleClickOutside(event) {
-        if (ref.current && !ref.current.contains(event.target)) {
-          alert("You clicked outside of me!");
-        }
-      }
-      // Bind the event listener
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        // Unbind the event listener on clean up
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, [ref]);
-  }
+// function useOutsideAlerter(ref) {
+//     useEffect(() => {
+//       /**
+//        * Alert if clicked on outside of element
+//        */
+//       function handleClickOutside(event) {
+//         if (ref.current && !ref.current.contains(event.target)) {
+//           alert("You clicked outside of me!");
+//         }
+//       }
+//       // Bind the event listener
+//       document.addEventListener("mousedown", handleClickOutside);
+//       return () => {
+//         // Unbind the event listener on clean up
+//         document.removeEventListener("mousedown", handleClickOutside);
+//       };
+//     }, [ref]);
+  // }
 
 export default class ProductList extends Component {
     constructor(props) {
@@ -281,7 +281,7 @@ function ProductRow(props) {
   return (
     <div className='row item-row'>
         <div className='cell flex-1'>
-            <Link href={'/products/' + row.id} title={props.row.title} />
+            <Link href={'/product/' + row.id} title={props.row.title} />
         </div>
         <div className='cell flex-2 fsize-90'> {row.path_pattern} </div>
     </div>

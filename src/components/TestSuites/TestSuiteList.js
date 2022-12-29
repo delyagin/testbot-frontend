@@ -4,6 +4,7 @@ import InputRow from '../Input/InputRow';
 import PopUpMenu from '../popUpMenu/PopUpMenu';
 import Modal from '../Modal/Modal';
 import { Button } from 'reactstrap';
+import Link from '../Link/Link';
 
 export default class TestSuiteList extends Component {
   constructor(props) {
@@ -14,6 +15,22 @@ export default class TestSuiteList extends Component {
       modal: false
     }
   }
+  _dbDidUpdate = () => {
+    if (this.state._isMounted) { 
+      this.forceUpdate();
+    }
+  }
+  componentDidMount(){
+    var statemap = this._dbum_state || (this._dbum_state = []);
+    for (var key in this.state) {
+      var prev = statemap[key];
+      statemap[key] = db_subscribe(this.state[key], this._dbDidUpdate)
+      if (prev) db_unsubscribe(prev);
+      }
+    this.setState({
+      _isMounted: true
+    })      
+  };  
   showPopup = () => {
     this.setState(prevState => {
       return{
@@ -43,12 +60,16 @@ setModal = (value) => {
               onClick={[() => this.setModal(true)]} 
               text={["Add a new test suite..."]} />}
         </div>
+        <NewTestSuiteDialog modalActive={this.state.modal} setModal={this.setModal}/>
         <div className='row h2'>
           <div className='cell flex-1' >Title</div>
           <div className='cell flex-2' >Description</div>
         </div>
-        <SortedRows viewName={this.state.items} sortKey="title" />
-        <NewTestSuiteDialog modalActive={this.state.modal} setModal={this.setModal}/>
+        <SortedRows 
+          viewName={this.state.items} 
+          sortKey="title" 
+          rowFactory={(row) => <TestSuiteRow row={row} />}
+        />
       </div>
     )
   }
@@ -64,17 +85,22 @@ class NewTestSuiteDialog extends Component {
     }
   }
   doCreate = (event) => {
-    console.log("doCreate")
-  //   event.preventDefault();
-  //   let spec = {
-  //     kind: "URSTEST",
-  //     url: this.state.url,
-  //     revision: this.state.revision
-  //   }
-  //   api_request("create/test-suite", {
-  //     title: this.state.title,
-  //     spec: spec
-  // });
+    event.preventDefault();
+    let spec = {
+      kind: "URSTEST",
+      url: this.state.url,
+      revision: this.state.revision
+    }
+    api_request("create/test-suite", {
+      title: this.state.title,
+      spec: spec
+  });
+  this.setState({
+    title: '',
+      url: '',
+      revision: ''
+  });
+  this.props.setModal(false);
   }
   setTitle = (event) => {
     this.setState({
@@ -113,55 +139,98 @@ class NewTestSuiteDialog extends Component {
   }
 }
 
-// function SortedRows(props) {
-//   // var rows = db_items(props.viewName);
-//   const [rows, setRows] = useState(null);
-//   useEffect(() => {
-//     setRows(db_items(props.viewName));
-//   })
-//   console.log("rows: ", rows);
-//   rows.sort(compareByKey(props.sortKey));
-//   if (props.reverse) rows.reverse();
-//   return (    
-//     rows.map((row) => 
-//         <div key={row.id}>{row.title}</div>
-//         //  <MachineGroupRow id={i} row={item} />
-//         )
-//   )
-// }
-
-class SortedRows extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      
-    }
-}
-_dbDidUpdate = () => {
-  if (this.state._isMounted) { 
-    this.forceUpdate();
-  }
-}
-componentDidMount(){
-var statemap = this._dbum_state || (this._dbum_state = []);
-  for (var key in this.state) {
-    var prev = statemap[key];
-    statemap[key] = db_subscribe(this.state[key], this._dbDidUpdate)
-    if (prev) db_unsubscribe(prev);
-    }
-  this.setState({
-    _isMounted: true
-  })      
-};  
-  render() {
-    var rows = db_items(props.viewName);
-  console.log("rows: ", rows);
-  rows.sort(compareByKey(props.sortKey));
-  if (props.reverse) rows.reverse();
-    return (
+function SortedRows(props) {
+  const [rows, setRows] = useState(null);
+  useEffect(() => {
+    var data = db_items(props.viewName);
+    setRows(data);
+  }, [props]);
+  if(rows){
+    if (props.reverse) rows.reverse();
+    rows.sort(compareByKey(props.sortKey));
+    return (    
       rows.map((row) => 
-        <div key={row.id}>{row.title}</div>
-   ))
+          <div key={row.id}>
+            {/* {row.title} */}
+            {props.rowFactory(row={row})}
+          </div>
+        ))
+  }  
+}
+
+function TestSuiteRow(props) {
+  // console.log("!!!!!!", props)
+  const [row, setRow] = useState(null);
+  useEffect(() => {
+    setRow(props.row);
+  }, [props]);
+  if (row) {
+    return (
+      <div className='row item-row'>
+        <div className='cell flex-1'>
+          <Link href={'/tsuite/' + row.row.id} title={row.row.title} />
+        </div>
+        <div className='cell flex-2'>
+          <TestSuiteRowDesc row={row} />
+        </div>
+      </div>
+      )
   }
 }
+
+function TestSuiteRowDesc(props) {
+  var spec = props.row.row.spec;
+  return (
+    <span>
+      <ExternalLink href={spec.url} >{spec.url}</ExternalLink>
+      <span>
+        , revision {spec.revision}     
+      </span>
+    </span>
+  )
+}
+
+function ExternalLink(props) {
+  return (
+    <a href={props.href} 
+      rel="nofollow noopener noreferrer"
+      target={"_blank"}>{props.children}
+    </a>
+  )
+}
+
+
+// class SortedRows extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//     }
+// }
+// _dbDidUpdate = () => {
+//   if (this.state._isMounted) { 
+//     this.forceUpdate();
+//   }
+// }
+// componentDidMount(){
+//   var statemap = this._dbum_state || (this._dbum_state = []);
+//   for (var key in this.state) {
+//     var prev = statemap[key];
+//     statemap[key] = db_subscribe(this.state[key], this._dbDidUpdate)
+//     if (prev) db_unsubscribe(prev);
+//     }
+//   this.setState({
+//     _isMounted: true
+//   })      
+// };  
+//   render() {
+//   var rows = db_items(this.props.viewName);
+//   console.log("rows: ", rows);
+//   rows.sort(compareByKey(this.props.sortKey));
+//   if (this.props.reverse) rows.reverse();
+//     return (
+//       rows.map((row) => 
+//         <div key={row.id}>{row.title}</div>
+//    ))
+//   }
+// }
 
