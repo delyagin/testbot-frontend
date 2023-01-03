@@ -9,3 +9,9 @@ export function ContactLabel(props) {
       <span>{props.row.name}</span>
     )
   }
+
+  export function ProductLabel(props) {
+    return (
+      <span>{props.row.title}</span>
+    )
+  }

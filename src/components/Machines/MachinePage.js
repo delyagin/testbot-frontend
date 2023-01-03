@@ -218,11 +218,10 @@ class DropdownRowSelect extends Component {
     }
     render() {
       var row = db_item_by_id(this.props.viewName, this.state.rowId);
-      console.log("row: ", row)
+      // console.log("row: ", row)
       var label = row.title   // ? this.props.labelFactory({row: row}) : null;
-      console.log("label: ", label)
       var rows = db_items(this.props.viewName);
-      console.log("rows: ", rows);
+      // console.log("rows: ", rows);
       var key = this.props.sortKey;
       if (key !== null) rows.sort(compareByKey(key));
       if (this.props.reverse) rows.reverse();        

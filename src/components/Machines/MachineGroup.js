@@ -124,8 +124,8 @@ render() {
   var machines = db_filter_items(this.state.machines, function (row) {
     return row.machine_group_id === mg_id;
   });
-  console.log("mg_id", mg_id);
-  console.log("this.state.machines", this.state.machines)
+  // console.log("mg_id", mg_id);
+  // console.log("this.state.machines", this.state.machines)
   var labels = [];
   machines.forEach((row, i) => {
     labels.push(<MachineLink key={row.id} row={row} />);
@@ -291,7 +291,7 @@ class DropdownRowSelect extends Component {
     this.setState({ opened: false });
   }
   doRowMouseDown = (id, event) => {
-    console.log("doRowMouseDown id", event.target);
+    // console.log("doRowMouseDown id", event.target);
     if (event.button == 0) {
       console.log("button is 0")
       event.preventDefault();
@@ -310,15 +310,15 @@ class DropdownRowSelect extends Component {
     this.setState({
       title: event.target.value
     })
-    console.log("target.value", event.target)
+    // console.log("target.value", event.target)
   }
   render() {
     var row = db_item_by_id(this.props.viewName, this.state.rowId);
-    console.log("row: ", row)
+    // console.log("row: ", row)
     var label = row.title   // ? this.props.labelFactory({row: row}) : null;
-    console.log("label: ", label)
+    // console.log("label: ", label)
     var rows = db_items(this.props.viewName);
-    console.log("rows: ", rows);
+    // console.log("rows: ", rows);
     var key = this.props.sortKey;
     if (key !== null) rows.sort(compareByKey(key));
     if (this.props.reverse) rows.reverse();        

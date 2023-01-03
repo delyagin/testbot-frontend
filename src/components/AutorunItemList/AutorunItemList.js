@@ -2,12 +2,11 @@ import React, { Component } from 'react'
 import { V_test_suites_all, V_machine_groups_all, V_autorun_items_all, 
          V_products_all, api_request, db_items, db_subscribe, db_unsubscribe,
         db_item_by_id, compareByKey } from '../../functions/functions'
-import InputRow from '../Input/InputRow';
 import PopUpMenu from '../popUpMenu/PopUpMenu';
 import Modal from '../Modal/Modal';
 import Link from '../Link/Link';
 import { Button } from 'reactstrap';
-import { TestSuiteLabel, ContactLabel } from "../../functions/Labels"
+import { TestSuiteLabel } from "../../functions/Labels"
 
 export default class AutorunItemList extends Component {
   constructor(props) {
@@ -272,7 +271,7 @@ class DropdownRowSelect extends Component {
     return this.state.rowId;
   }
   componentWillUnmount(){
-    console.log("componentWillUnmount called");
+    // console.log("componentWillUnmount called");
     this.setState({
       rowId: null,
       defaultRowId: null,
@@ -293,9 +292,7 @@ class DropdownRowSelect extends Component {
     this.setState({ opened: false });
   }
   doRowMouseDown = (id, event) => {
-    console.log("doRowMouseDown id", id);
     if (event.button == 0) {
-      console.log("button is 0")
       event.preventDefault();
       event.stopPropagation();
       document.activeElement.blur();

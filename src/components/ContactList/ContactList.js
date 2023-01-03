@@ -143,16 +143,16 @@ export default class ContactList extends Component {
               </button>
             </div> 
         </div>
+        <div className='dropdown'>
+          {this.state.popUpMenu && <PopUpMenu 
+          onClick={[() => this.setModalContact(true), () => this.setModalContactAssignment(true)]} 
+          text={["Add a new contact...", "Add a new contact assignment..."]} />}
+        </div>
         <div className='row h2'>
           <div className='cell flex-1' >Contact name</div>
           <div className='cell flex-2' >Test Suite</div>
           <div className='cell flex-3' >Test Name Pattern</div>
           <span className='icon icon-remove'/>
-        </div>
-        <div className='dropdown'>
-          {this.state.popUpMenu && <PopUpMenu 
-          onClick={[() => this.setModalContact(true), () => this.setModalContactAssignment(true)]} 
-          text={["Add a new contact...", "Add a new contact assignment..."]} />}
         </div>
         <Modal active={this.state.modalContact} setActive={this.setModalContact} setModal={this.setModalContactAssignment}>
             <div className='table'>
@@ -341,9 +341,7 @@ class DropdownRowSelect extends Component {
     this.setState({ opened: false });
   }
   doRowMouseDown = (id, event) => {
-    // console.log("doRowMouseDown id", event.target);
     if (event.button == 0) {
-      console.log("button is 0")
       event.preventDefault();
       event.stopPropagation();
       document.activeElement.blur();

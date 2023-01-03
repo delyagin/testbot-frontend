@@ -133,7 +133,7 @@ function SortedRows(props) {
     )
   }
 
-function MachineGroupRow(props) {
+export function MachineGroupRow(props) {
     var row = props.row;
     return (
       <div className='row item-row'>
@@ -147,7 +147,7 @@ function MachineGroupRow(props) {
     )
   }
 
-class MachineList extends Component {
+export class MachineList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -202,7 +202,6 @@ setModalActive = (value) => {
       labels.push(<MachineLink key={row.id} row={row} />);
       labels.push(<a className='a-left'>, </a>)
     })
-    console.log("labels: ", labels)
     return (
       <span>
         <span>{labels}</span>
@@ -361,9 +360,7 @@ class DropdownRowSelect extends Component {
     this.setState({ opened: false });
   }
   doRowMouseDown = (id, event) => {
-    console.log("doRowMouseDown id", event.target);
     if (event.button == 0) {
-      console.log("button is 0")
       event.preventDefault();
       event.stopPropagation();
       document.activeElement.blur();
@@ -380,15 +377,12 @@ class DropdownRowSelect extends Component {
     this.setState({
       title: event.target.value
     })
-    console.log("target.value", event.target)
+    // console.log("target.value", event.target)
   }
   render() {
     var row = db_item_by_id(this.props.viewName, this.state.rowId);
-    console.log("row: ", row)
     var label = row ? row.title : null   // ? this.props.labelFactory({row: row}) : null;
-    console.log("label: ", label)
     var rows = db_items(this.props.viewName);
-    console.log("rows: ", rows);
     var key = this.props.sortKey;
     if (key !== null) rows.sort(compareByKey(key));
     if (this.props.reverse) rows.reverse();        

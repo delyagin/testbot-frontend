@@ -184,7 +184,7 @@ export function db_items(viewname) {
 }
 
 export function db_filter_items(viewname, filter) {
-    console.log("filter", filter)
+    // console.log("filter", filter)
     var view = VIEWMAP[viewname];
     var items = [];
     if (!view) return items;
@@ -357,5 +357,27 @@ export function V_autorun_items_all() {
     if (VIEWMAP[name]) return name;
     db_create_view(name, "autorun_items", function (row) { return true; });
     populate_db_from_api(name, "list/autorun-items/all");
+    return name;
+}
+
+export function V_builds_before_date(date, limit) {
+    var name = "b/b4-date/" + date + "/" + limit;
+    if (VIEWMAP[name]) return name;
+    db_create_view(name, "builds", function (row) {
+        return row.date < date;
+    }, db_limited_inserter("date", limit));
+    populate_db_from_api(name,
+            "list/builds/before-date", {date: date, limit: limit});
+    return name;
+}
+
+export function V_results_by_build(build_id) {
+    var name = "r/by-b/" + build_id;
+    if (VIEWMAP[name]) return name;
+    db_create_view(name, "results", function (row) {
+        return row.build_id === build_id;
+    });
+    populate_db_from_api(name,
+            "list/results/by-build", {build_id: build_id});
     return name;
 }
